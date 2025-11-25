@@ -1,23 +1,45 @@
-# 3. S3를 활용한 정적 웹사이트 배포 (CloudFront 적용)
+# 3. S3 + CloudFront 정적 웹사이트 배포 (CDN 및 보안 강화)
 
-## 📌 개요
-비용 효율적인 **Amazon S3**를 스토리지로 사용하고, **Amazon CloudFront (CDN)**를 통해 콘텐츠 전송 속도를 높이고 보안을 강화하여 정적 웹사이트를 전 세계 사용자에게 배포하는 실습입니다.
+이 프로젝트는 Amazon S3를 이용해 정적 콘텐츠를 저장하고, **CloudFront (CDN)**를 통해 콘텐츠 전송 속도를 최적화하며 **OAC (Origin Access Control)**를 활용하여 **보안을 강화**하는 현대적인 정적 웹사이트 배포 구조를 구축한 실습입니다.
 
-## 🧱 아키텍처 구성
-### 1. 구성 요소
-* **Amazon S3 Bucket:** 정적 파일(HTML, CSS, JS, 이미지)을 저장하는 원본(Origin) 서버 역할.
-* **CloudFront Distribution (CDN):**
-    * 전 세계 엣지 로케이션에 S3 콘텐츠를 캐싱하여 사용자에게 **최저 지연 시간**으로 콘텐츠를 전달.
-    * **Origin Access Control (OAC)** 또는 **Origin Access Identity (OAI)**를 설정하여 CloudFront를 통해서만 S3 버킷에 접근 가능하도록 보안 강화. (S3 버킷의 퍼블릭 접근 차단)
-* **Route 53 (선택 사항):** 도메인을 연결하여 CloudFront URL 대신 사용자 지정 도메인으로 서비스 제공.
+---
 
-### 2. 아키텍처 다이어그램
-[Image of AWS Architecture Diagram for Static Website Hosting using S3 and CloudFront]
-*(직접 그린 S3와 CloudFront 연결 다이어그램 이미지 파일을 이 폴더에 업로드하고 링크를 대체하세요.)*
+## 아키텍처 다이어그램
+![S3와 CloudFront를 이용한 정적 웹사이트 배포 아키텍처 다이어그램](./s3_cloudfront_architecture.png)
 
-## ✅ 주요 학습 내용 및 검증
-* **S3 정적 웹사이트 호스팅**의 설정 및 S3 버킷 정책 이해.
-* **CDN (Content Delivery Network)**의 역할 및 성능 최적화 원리 이해.
-* **OAC/OAI 설정**을 통한 S3 버킷에 대한 직접 접근을 차단하고 **보안을 강화**하는 방법.
-* **캐싱 동작 검증:** CloudFront URL을 통해 접속했을 때 S3가 아닌 엣지 로케이션에서 콘텐츠가 제공되는지 확인.
-* 최종 **CloudFront Domain Name**을 통한 웹사이트 접속 성공 확인.
+---
+
+## 실습 목표
+* **CDN(Content Delivery Network)의 개념 및 활용 이해**
+* **S3를 이용한 정적 웹사이트 호스팅 원리 이해**
+* **OAC (Origin Access Control) 설정을 통한 보안 강화**
+* 콘텐츠 전송 속도 최적화 및 글로벌 사용자 대상 서비스 제공 능력 확보
+
+---
+
+## 사용 AWS 서비스
+
+### 스토리지 & CDN
+* **S3 (Simple Storage Service):** 정적 파일(HTML, CSS 등) 저장소
+* **CloudFront (CDN):** 콘텐츠 캐싱 및 엣지 로케이션을 통한 전송 속도 최적화
+* **Origin Access Control (OAC):** CloudFront가 비공개 S3 버킷에 안전하게 접근하도록 하는 인증 메커니즘
+
+### 기타
+* **Route 53 (선택 사항):** 사용자 지정 도메인 연결
+
+---
+
+## 트래픽 흐름
+
+1.  **사용자 접속:** 사용자가 CloudFront의 도메인 주소로 접속합니다.
+2.  **캐싱 확인:** CloudFront는 가장 가까운 **엣지 로케이션**에 콘텐츠가 있는지 확인합니다.
+3.  **최초 요청:** 캐시에 콘텐츠가 없으면, CloudFront는 **OAC** 인증을 통해 **S3 버킷(Origin)**에 파일을 요청합니다.
+4.  **보안 접근:** S3는 오직 OAC 권한이 있는 CloudFront에게만 파일을 제공합니다.
+5.  **콘텐츠 전송:** CloudFront는 S3에서 받은 콘텐츠를 사용자에게 전달하고, 다음 요청을 위해 엣지 로케이션에 **캐시**합니다.
+
+---
+
+## 핵심 학습 포인트
+* **보안적인 정적 콘텐츠 전송 구조 구현:** OAC를 통해 S3 버킷이 외부 노출 없이 안전하게 콘텐츠를 제공하도록 설계
+* **저지연(Low-Latency) 콘텐츠 제공 원리:** CDN의 캐싱 메커니즘과 글로벌 네트워크 활용 이해
+* **클라우드 스토리지 활용:** S3의 뛰어난 내구성과 비용 효율성을 이용한 데이터 저장 및 제공 경험 확보
