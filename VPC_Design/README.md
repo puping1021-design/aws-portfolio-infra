@@ -68,3 +68,7 @@ Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확
 - NAT Gateway를 통한 보안적 인터넷 연결 구조
 - ALB의 헬스 체크 및 로드 밸런싱 동작 방식 이해
 - 기본 AWS 네트워크 구성 요소의 실전 감각 확보
+
+
+## 결과 
+![AWS Architecture](./aws_architecture.png)
