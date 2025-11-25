@@ -22,22 +22,3 @@ AWS 클라우드에서 격리된 사설 네트워크 공간인 **VPC**를 설계
 * **IGW와 NAT Gateway**의 명확한 역할 분리 및 설정 방법.
 * Route Table을 통한 **트래픽 라우팅** 제어.
 * Private Subnet에 배치된 EC2가 **NAT Gateway를 통해 패치 업데이트** 등을 성공적으로 수행할 수 있는지 검증.
-
----
-
-### 3. 커밋하여 저장
-
-1.  스크롤을 내려서 **'Commit changes'** 섹션을 확인합니다.
-2.  **Commit message**는 기본값(예: `Create VPC_Design/README.md`) 그대로 두어도 됩니다.
-3.  **'Commit new file'** 버튼을 클릭하여 파일을 저장하고 폴더를 생성합니다.
-
-### 4. 나머지 두 폴더/파일 생성
-
-위의 1~3단계를 반복하여 나머지 두 실습 폴더와 `README.md` 파일도 만들어 주세요.
-
-| 폴더/파일명 | 파일 내용 (제목만 임시로) |
-| :--- | :--- |
-| `EC2_ALB_ASG/README.md` | `# 2. EC2 기반 고가용성 웹 서비스 구축 (ALB + AutoScaling)` |
-| `S3_CloudFront_Static_Website/README.md` | `# 3. S3를 활용한 정적 웹사이트 배포 (CloudFront 적용)` |
-
----
