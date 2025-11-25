@@ -50,3 +50,20 @@ VPC + Public/Private Subnet + NAT Gateway + ALB + EC2
 
 ## 📘 ルーティング設定
 ### Public Route Table
+
+
+### Private Route Table
+
+
+---
+
+## 🚀 学習のポイント
+- マルチAZによる冗長化  
+- サブネットの役割分離  
+- セキュアなアウトバウンド設計  
+- ALB のヘルスチェックとトラフィック分散  
+- 実務に近い構成の理解  
+
+---
+
+## 📂 フォルダ構造
