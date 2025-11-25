@@ -35,8 +35,8 @@ Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확
 - **Route Table (Public / Private)**
 
 ### 컴퓨팅
-- **EC2 (Private Subnet App Server)**
-- Bastion Host (옵션)
+* **EC2 Web Server (Public Subnet)**
+* Bastion Host (옵션)
 
 ### 로드 밸런싱
 - **Application Load Balancer (ALB)**
