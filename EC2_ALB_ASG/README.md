@@ -1,23 +1,47 @@
-# 2. EC2 기반 고가용성 웹 서비스 구축 (ALB + AutoScaling)
+# 2. EC2 기반 자동 확장 웹 서비스 구축 (ALB + Auto Scaling Group)
 
-## 📌 개요
-단일 장애점(Single Point of Failure)을 제거하고 트래픽 변화에 유연하게 대응할 수 있는 **고가용성(High Availability)** 및 **자동 확장(Scalability)** 웹 아키텍처를 구축하는 실습입니다.
+이 프로젝트는 앞서 구축한 Multi-AZ VPC 환경 위에 **Application Load Balancer (ALB)**와 **Auto Scaling Group (ASG)**을 구성하여, 트래픽 변화에 따라 서버 수가 자동으로 조절되고 장애 발생 시 스스로 복구되는 **탄력적(Elastic)이고 고가용성(HA)** 있는 웹 서비스를 구축한 실습입니다.
 
-## 🧱 아키텍처 구성
-### 1. 구성 요소
-* **Application Load Balancer (ALB):** 다중 가용 영역(Multi-AZ)에 분산된 EC2 인스턴스 그룹으로 트래픽을 분산. 상태 검사(Health Check)를 통해 비정상 인스턴스 제외.
-* **Auto Scaling Group (ASG):**
-    * **시작 템플릿:** EC2 인스턴스의 이미지(AMI), 인스턴스 유형, 키 페어, User Data (웹 서버 설치 스크립트) 등을 정의.
-    * **조정 정책:** CPU 사용률 등 메트릭 기반으로 최소/최대/희망 인스턴스 수를 설정하여 트래픽 부하에 따라 인스턴스를 자동으로 확장/축소.
-* **EC2 Instance:** Public Subnet에 배치되며, 웹 서버 역할을 수행.
-* **Multi-AZ:** 2개 이상의 가용 영역(AZ)에 리소스를 분산하여 한 AZ에 장애가 발생해도 서비스가 지속되도록 설계. (실습 1의 VPC 환경 사용)
+---
 
-### 2. 아키텍처 다이어그램
+## 아키텍처 다이어그램
+![ALB와 ASG 기반 웹 아키텍처 다이어그램](./alb_asg_architecture.png)
 
-*(직접 그린 ALB, ASG, Multi-AZ 구성 다이어그램 이미지 파일을 이 폴더에 업로드하고 링크를 대체하세요.)*
+---
 
-## ✅ 주요 학습 내용 및 검증
-* **고가용성 (HA)의 구현:** 로드 밸런서와 Multi-AZ 환경을 통한 단일 장애점 제거 원리 이해.
-* **Auto Scaling의 동작:** 부하 증가 시 인스턴스가 자동으로 추가되고, 부하 감소 시 제거되는 동적 확장/축소 정책 설정 및 검증.
-* **Target Group과 Health Check:** 로드 밸런서가 트래픽을 보낼 인스턴스 그룹 정의 및 인스턴스의 상태 확인 메커니즘 이해.
-* **User Data 활용:** EC2 인스턴스 시작 시 자동으로 웹 서버(예: Apache, Nginx)를 설치하고 실행하도록 설정하는 경험.
+## 실습 목표
+* **자동 확장성(Elasticity) 확보:** 트래픽 부하에 따라 서버 인스턴스 수를 자동으로 조절하는 능력 구현
+* **자가 복구(Self-Healing) 구현:** 인스턴스 장애 발생 시, ASG가 자동으로 감지하고 새로운 인스턴스로 대체하는 내결함성 확보
+* **부하 분산 구현:** ALB를 통해 여러 AZ에 걸친 EC2 인스턴스로 트래픽을 균등하게 분산
+* 무중단 서비스 구조 이해 및 Launch Template을 이용한 서버 구성 표준화
+
+---
+
+## 사용 AWS 서비스
+
+### 로드 밸런싱 & 자동 확장
+* **Application Load Balancer (ALB):** L7 계층 부하 분산 및 헬스 체크
+* **Target Group:** ALB가 트래픽을 전달할 EC2 인스턴스들의 집합
+* **Launch Template:** ASG에 의해 실행될 EC2 인스턴스의 구성 템플릿 (User Data 스크립트 포함)
+* **Auto Scaling Group (ASG):** 최소/최대/희망 용량 관리 및 자동 스케일링 정책 실행
+
+### 컴퓨팅 & 네트워크
+* **EC2 (Web Server):** ASG에 의해 관리되는 웹 서버
+* **VPC, Public Subnet, Security Group:** (이전 실습에서 구축)
+
+---
+
+## 트래픽 및 확장 흐름
+
+1.  **사용자 접속:** 외부 사용자가 **ALB의 DNS 주소**로 접속합니다.
+2.  **트래픽 분산:** ALB는 Target Group에 등록된 **Public Subnet의 건강한 EC2 인스턴스**로 트래픽을 균등하게 분배합니다.
+3.  **자동 확장/축소 (Scale In/Out):** CPU 사용률 등 메트릭 기반으로 ASG가 인스턴스 수를 자동으로 조절합니다.
+4.  **자가 복구 (Self-Healing):** 헬스 체크 실패 시, ASG가 해당 인스턴스를 즉시 교체 생성하여 서비스 연속성을 보장합니다.
+
+---
+
+## 핵심 학습 포인트
+* **클라우드 탄력성(Elasticity) 구현:** 인프라 자원을 트래픽 변화에 맞춰 유연하게 운영하는 실전 경험 확보
+* **내결함성(Fault Tolerance) 설계:** ASG와 Multi-AZ 구조를 통한 자동 복구 능력 구현
+* **부하 분산 메커니즘 이해:** ALB 헬스 체크 및 분산 방식의 동작 원리 체득
+* Launch Template을 이용한 서버 자동 배포 설정 경험 확보
