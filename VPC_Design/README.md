@@ -1,69 +1,73 @@
-# AWS マルチAZ Webアーキテクチャ  
+# AWS Multi-AZ Web Architecture  
 VPC + Public/Private Subnet + NAT Gateway + ALB + EC2
 
-本プロジェクトは、AWS における代表的な **高可用性（HA）Webアーキテクチャ** を  
-実際に構築することで、ネットワーク・セキュリティ・負荷分散の基礎を理解することを目的としています。
+이 프로젝트는 AWS에서 실제 서비스에서도 가장 널리 사용되는  
+**고가용성(High Availability) 웹 아키텍처**를 직접 구성하며 학습한 실습입니다.
+
+Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확장성 등  
+실무 인프라 개념을 체득하는 것을 목표로 했습니다.
 
 ---
 
-## 🏗 アーキテクチャ図
+## 🏗 아키텍처 다이어그램
 ![AWS Architecture](./aws_architecture.png)
 
 ---
 
-## 🎯 学習目的
-- AWS ネットワーク基礎の理解  
-- Public / Private Subnet の分離  
-- Application Load Balancer による負荷分散  
-- NAT Gateway 経由のアウトバウンド通信  
-- マルチAZ構成による高可用性  
-- ルートテーブル / セキュリティグループ設定の理解  
+## 🎯 실습 목표
+- VPC 네트워크 구조 이해
+- 2개 AZ 기반 고가용성 구조 설계
+- Public / Private Subnet의 역할 구분
+- NAT Gateway를 이용한 안전한 아웃바운드 설계
+- ALB 기반 트래픽 분산 구조 구성
+- Route Table 기반 트래픽 흐름 이해
 
 ---
 
-## 🔧 使用サービス
-### ネットワーク
-- VPC（10.0.0.0/16）  
-- Public Subnet (1a, 1c)  
-- Private Subnet (1a, 1c)  
-- Internet Gateway  
-- NAT Gateway  
-- Route Table (Public / Private)
+## 🔧 사용 AWS 서비스
 
-### コンピューティング
-- EC2（Private Subnet - App Server）  
-- Bastion Host（任意）
+### 네트워크
+- **VPC (10.0.0.0/16)**
+- **Public Subnet 1a / 1c**
+- **Private Subnet 1a / 1c**
+- **Internet Gateway (IGW)**
+- **NAT Gateway**
+- **Route Table (Public / Private)**
 
-### ロードバランサ
-- ALB（Application Load Balancer）
+### 컴퓨팅
+- **EC2 (Private Subnet App Server)**
+- Bastion Host (옵션)
 
----
-
-## 🌐 トラフィックフロー
-1. 利用者 → ALB  
-2. ALB → Private Subnet 内の EC2  
-3. EC2 はインターネットへ直接出られない  
-4. アップデート時は NAT Gateway 経由  
-5. Public Subnet は IGW を介してインターネットへ直接接続  
+### 로드 밸런싱
+- **Application Load Balancer (ALB)**
 
 ---
 
-## 📘 ルーティング設定
+## 🌐 트래픽 흐름
+
+1. 외부 사용자가 **ALB**로 접속  
+2. ALB가 **Private Subnet의 EC2**로 트래픽 전달  
+3. Private Subnet의 EC2는 외부 인터넷 직접 접근 불가  
+4. EC2의 업데이트/패키지 설치는 NAT Gateway를 통해 아웃바운드  
+5. Public Subnet은 IGW를 사용해 직접 인터넷 접근 가능  
+
+---
+
+## 📘 라우팅 구성
+
 ### Public Route Table
-
+0.0.0.0/0 → Internet Gateway
 
 ### Private Route Table
+0.0.0.0/0 → NAT Gateway
 
 
 ---
 
-## 🚀 学習のポイント
-- マルチAZによる冗長化  
-- サブネットの役割分離  
-- セキュアなアウトバウンド設計  
-- ALB のヘルスチェックとトラフィック分散  
-- 実務に近い構成の理解  
+## 🚀 핵심 학습 포인트
 
----
-
-## 📂 フォルダ構造
+- 멀티 AZ 기반 고가용성 설계 이해
+- Subnet 분리(퍼블릭 / 프라이빗)의 실무적 의미 체득
+- NAT Gateway를 통한 보안적 인터넷 연결 구조
+- ALB의 헬스 체크 및 로드 밸런싱 동작 방식 이해
+- 기본 AWS 네트워크 구성 요소의 실전 감각 확보
