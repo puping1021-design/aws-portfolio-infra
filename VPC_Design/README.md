@@ -71,4 +71,4 @@ Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확
 
 
 ## 결과 
-![AWS Architecture](./aws_architecture.png)
+![AWS Architecture](./result.png)
