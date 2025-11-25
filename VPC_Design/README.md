@@ -41,5 +41,3 @@ AWS 클라우드에서 격리된 사설 네트워크 공간인 **VPC**를 설계
 | `S3_CloudFront_Static_Website/README.md` | `# 3. S3를 활용한 정적 웹사이트 배포 (CloudFront 적용)` |
 
 ---
-
-세 개의 폴더가 모두 생성되면, 이제 **실습 2**의 상세 내용인 **EC2 + ALB + AutoScaling** 문서를 작성해 보겠습니다. 모두 만드시면 알려주세요!
