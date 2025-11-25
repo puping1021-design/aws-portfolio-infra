@@ -9,12 +9,12 @@ Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확
 
 ---
 
-## 🏗 아키텍처 다이어그램
+## 아키텍처 다이어그램
 ![AWS Architecture](./aws_architecture.png)
 
 ---
 
-## 🎯 실습 목표
+## 실습 목표
 - VPC 네트워크 구조 이해
 - 2개 AZ 기반 고가용성 구조 설계
 - Public / Private Subnet의 역할 구분
@@ -24,7 +24,7 @@ Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확
 
 ---
 
-## 🔧 사용 AWS 서비스
+## 사용 AWS 서비스
 
 ### 네트워크
 - **VPC (10.0.0.0/16)**
@@ -43,17 +43,15 @@ Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확
 
 ---
 
-## 🌐 트래픽 흐름
-
+## 트래픽 흐름
 1. 외부 사용자가 **ALB**로 접속  
-2. ALB가 **Private Subnet의 EC2**로 트래픽 전달  
-3. Private Subnet의 EC2는 외부 인터넷 직접 접근 불가  
-4. EC2의 업데이트/패키지 설치는 NAT Gateway를 통해 아웃바운드  
-5. Public Subnet은 IGW를 사용해 직접 인터넷 접근 가능  
+2. **ALB가 Public Subnet의 EC2 Web Server로 트래픽 전달**
+3. **Public Subnet의 EC2는 IGW를 사용하여 인터넷에 직접 접근 가능**
+4. **Private Subnet에 배치될 데이터베이스 등의 리소스는 NAT Gateway를 통해 아웃바운드되도록 설계됨**
 
 ---
 
-## 📘 라우팅 구성
+## 라우팅 구성
 
 ### Public Route Table
 0.0.0.0/0 → Internet Gateway
@@ -61,10 +59,9 @@ Public/Private Subnet 분리, NAT Gateway 통한 아웃바운드, ASG 기반 확
 ### Private Route Table
 0.0.0.0/0 → NAT Gateway
 
-
 ---
 
-## 🚀 핵심 학습 포인트
+## 핵심 학습 포인트
 
 - 멀티 AZ 기반 고가용성 설계 이해
 - Subnet 분리(퍼블릭 / 프라이빗)의 실무적 의미 체득
