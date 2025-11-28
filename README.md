@@ -1,17 +1,27 @@
-# AWS 기초 실습 포트폴리오 
+# AWS 基礎演習ポートフォリオ
 
-이 저장소는 AWS 핵심 서비스(VPC, EC2, S3, CloudFront 등)를 활용하여 구축한 3가지 기본 아키텍처 실습 결과물을 담고 있습니다. 각 실습별 **아키텍처 설계도**, **구현 과정**, 그리고 **주요 학습 내용**을 정리했습니다.
+本リポジトリでは、AWS の主要サービス（VPC、EC2、S3、CloudFront など）を用いて構築した  
+3つの基礎アーキテクチャ演習の成果物をまとめています。
 
-## 실습 목록
-
-| 번호 | 실습 주제 | 핵심 AWS 서비스 | 링크 |
-| :---: | :--- | :--- | :--- |
-| **1** | **VPC 네트워크 설계** | VPC, Subnet, IGW, NAT Gateway, Route Table | [VPC 설계 실습 상세](./VPC_Design/README.md) |
-| **2** | **고가용성 웹 서비스** | EC2, ALB, Auto Scaling, Multi-AZ | [EC2/ALB/ASG 실습 상세](./EC2_ALB_ASG/README.md) |
-| **3** | **정적 웹사이트 배포** | S3, CloudFront (CDN), OAC | [S3/CloudFront 실습 상세](./S3_CloudFront_Static_Website/README.md) |
+各演習ごとにアーキテクチャ設計図、実装手順、学習ポイントを整理し、  
+クラウドインフラの基礎理解を深めることを目的としています。
 
 ---
 
-## 저장소 폴더 구조
+## 演習一覧
 
-/aws-portfolio-infra ├── README.md (현재 파일) ├── /VPC_Design ├── /EC2_ALB_ASG └── /S3_CloudFront_Static_Website
+| No | 演習テーマ | 主な AWS サービス | リンク |
+| :---: | :--- | :--- | :--- |
+| 1 | VPC ネットワーク設計 | VPC, Subnet, IGW, NAT Gateway, Route Table | [VPC 設計演習の詳細](./VPC_Design/README.md) |
+| 2 | 高可用性 Web サービス構築 | EC2, ALB, Auto Scaling, Multi-AZ | [EC2/ALB/ASG 演習の詳細](./EC2_ALB_ASG/README.md) |
+| 3 | 静的 Web サイト配信 | S3, CloudFront（CDN）, OAC | [S3/CloudFront 演習の詳細](./S3_CloudFront_Static_Website/README.md) |
+
+---
+
+## リポジトリ構成
+
+aws-portfolio-infra
+├── README.md（本ドキュメント）
+├── VPC_Design
+├── EC2_ALB_ASG
+└── S3_CloudFront_Static_Website
